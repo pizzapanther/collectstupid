@@ -15,6 +15,14 @@ Heroku to S3.
 So speed up your static file deploy with collectstupid if the total size 
 of your static files can be uploaded quickly.
 
+## Installation and Usage
+
+`pip install collectstupid`
+
+Add `collectstupid` to `INSTALLED_APPS`
+
+Run: `python manage.py collectstupid`
+
 ## Personal Example Where CollectStupid Improved Deployment Speed
 
 For a project, whenever we deployed, a huge amount of memory (+13GB) was used 
