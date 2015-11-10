@@ -26,8 +26,9 @@ Run: `python manage.py collectstupid`
 ## Storage Mixin
 
 Some storage implementations execute an *exists* and *delete* on the storage
-class even when using `collectstupid`. You can use the 
-**collectstupid.storage.StupidStorageMixin** 
+class even when using `collectstupid`. You can add the 
+**collectstupid.storage.StupidStorageMixin** to your storage class to skip 
+those requests.
 
 ## Personal Example Where CollectStupid Improved Deployment Speed
 
