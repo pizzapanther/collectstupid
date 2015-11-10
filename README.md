@@ -19,7 +19,7 @@ of your static files can be uploaded quickly.
 
 `pip install collectstupid`
 
-Add `collectstupid` to `INSTALLED_APPS`
+Add **collectstupid** to **INSTALLED_APPS**
 
 Run: `python manage.py collectstupid`
 
