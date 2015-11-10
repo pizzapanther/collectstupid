@@ -23,6 +23,12 @@ Add **collectstupid** to **INSTALLED_APPS**
 
 Run: `python manage.py collectstupid`
 
+## Storage Mixin
+
+Some storage implementations execute an *exists* and *delete* on the storage
+class even when using `collectstupid`. You can use the 
+**collectstupid.storage.StupidStorageMixin** 
+
 ## Personal Example Where CollectStupid Improved Deployment Speed
 
 For a project, whenever we deployed, a huge amount of memory (+13GB) was used 
