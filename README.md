@@ -14,3 +14,28 @@ Heroku to S3.
 
 So speed up your static file deploy with collectstupid if the total size 
 of your static files can be uploaded quickly.
+
+## Personal Example Where CollectStupid Improved Deployment Speed
+
+For a project, whenever we deployed, a huge amount of memory (+13GB) was used 
+and the whole process took more than 30 minutes on a fast Mac and over 2 hours 
+on a virtual machine. Through investigation, we found that every check of 
+whether a file existed caused the bucket to do a full file list because of a
+very inefficient S3 storage implementation. We implemented `collectstupid` and
+split our process to by default collect without MP3s and MP4s so we weren't 
+uploading any large files with every deploy. The deploy went down to 10 minutes 
+without large files, and 15 minutes with large files. This also cut down memory 
+usage to almost nothing when compared to 13GB.
+
+With memory usage down, we can now move our collect static step back to Heroku
+where the file copies are even faster to S3 and get the deploy time less
+than 10 minutes.
+
+## Future work
+
+Make stupid a little smart: Cache which files were uploaded but still skip 
+delete and exists checks.
+
+## Feature requests
+
+Feel free to open an issue
