@@ -1,4 +1,4 @@
-# Collect Stupid - A Faster Collect Static for Django
+# Collect Stupid - A Faster, Smarter, and Stupider Collect Static for Django
 
 When using `collectstatic` with remote file systems like Amazon S3 it can often
 slow down because up to 3 remote operations are needed for each file.
