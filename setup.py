@@ -6,7 +6,7 @@ from setuptools import find_packages
 setup(
   name='collectstupid',
   description='A Faster Collect Static (sometimes) for Django',
-  version='15.11.3',
+  version='15.11.4',
   long_description=open('README.md').read(),
   author='Paul Bailey',
   author_email='paul.m.bailey@gmail.com',

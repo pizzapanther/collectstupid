@@ -1,4 +1,4 @@
-# Collect Stupid - A Faster Collect Static (sometimes) for Django
+# Collect Stupid - A Faster Collect Static for Django
 
 When using `collectstatic` with remote file systems like Amazon S3 it can often
 slow down because up to 3 remote operations are needed for each file.
@@ -7,13 +7,18 @@ slow down because up to 3 remote operations are needed for each file.
 2. Delete file if old
 3. Copy the new file
 
-This becomes very slow when your project grows. Sometimes 
-it is just faster to upload everything. This is especially true if you
-run collectstupid close to the your remote file system, for example from
-Heroku to S3.
+collectstupid speeds up your static file deploy with two tricks
 
-So speed up your static file deploy with collectstupid if the total size 
-of your static files can be uploaded quickly.
+1. The Stupid One: Never checks remote file timestamps and never deletes the 
+   old file. It just overwrites the file blindly. This saves two remote
+   operations.
+2. The Smart One: Stores a list of deployed file md5sums on the remote file 
+   system. This keeps track of what files need to be deployed and md5sums are 
+   only computed at the source for speed. This can be faster than other 
+   collectstatic libraries which a lot of times use local cache and thus other 
+   developers don't benefit from the last deploy. Also the deployment tracking 
+   is more permanent and not subject to cache clearing unless you explicitly 
+   need to clear it.
 
 ## Installation and Usage
 
@@ -36,20 +41,16 @@ For a project, whenever we deployed, a huge amount of memory (+13GB) was used
 and the whole process took more than 30 minutes on a fast Mac and over 2 hours 
 on a virtual machine. Through investigation, we found that every check of 
 whether a file existed caused the bucket to do a full file list because of a
-very inefficient S3 storage implementation. We implemented `collectstupid` and
-split our process to by default collect without MP3s and MP4s so we weren't 
-uploading any large files with every deploy. The deploy went down to 10 minutes 
-without large files, and 15 minutes with large files. This also cut down memory 
-usage to almost nothing when compared to 13GB.
+very inefficient S3 storage implementation. We implemented `collectstupid` and 
+after the initial deploy of large files, subsequent deploys went down to less
+than 5 minutes. This also cut down memory usage to almost nothing when compared 
+to 13GB.
 
-With memory usage down, we can now move our collect static step back to Heroku
-where the file copies are even faster to S3 and get the deploy time less
-than 10 minutes.
+## Settings
 
-## Future work
+`STUPID_DEPLOY_CACHE`: File where md5sums are stored on the remote filesystem
 
-Make stupid a little smart: Cache which files were uploaded but still skip 
-delete and exists checks.
+Default: collectstupid-cache.json
 
 ## Feature requests
 
