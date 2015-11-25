@@ -40,6 +40,10 @@ class Command (collectstatic.Command):
     
     if path in self.deployed_files:
       if self.deployed_files[path] == hash_slinging_slasher:
+        if prefixed_path not in self.unmodified_files:
+          self.unmodified_files.append(prefixed_path)
+          
+        self.log("Skipping '%s' (not modified)" % path)
         return False
         
     self.deployed_files[path] = hash_slinging_slasher
