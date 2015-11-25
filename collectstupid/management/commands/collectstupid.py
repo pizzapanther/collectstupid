@@ -33,8 +33,14 @@ class Command (collectstatic.Command):
   def karen_scan (self, path, source_storage):
     hasher = hashlib.md5()
     with source_storage.open(path) as fh:
-      hasher.update(fh.read())
-      
+      while 1:
+        chunk = fh.read(1024)
+        if chunk:
+          hasher.update(chunk)
+          
+        else:
+          break
+          
     return hasher.hexdigest()
     
   def delete_file (self, path, prefixed_path, source_storage):
