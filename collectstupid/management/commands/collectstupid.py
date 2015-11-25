@@ -10,6 +10,8 @@ class Command (collectstatic.Command):
   
   def handle (self, *args, **kwargs):
     cache_path = getattr(settings, 'STUPID_DEPLOY_CACHE', 'collectstupid-cache.json')
+    self.ignored_paths = getattr(settings, 'STUPID_IGNORED_PATHS', ())
+    
     self.set_options(**kwargs)
     
     if self.clear:
@@ -36,6 +38,9 @@ class Command (collectstatic.Command):
     return hasher.hexdigest()
     
   def delete_file (self, path, prefixed_path, source_storage):
+    if path.startswith(self.ignored_paths):
+      return True
+      
     hash_slinging_slasher = self.karen_scan(path, source_storage)
     
     if path in self.deployed_files:
